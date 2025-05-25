@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movement History</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Movement History</h1>
+    <button onclick="window.location.href='index.html'">Back to Home</button>
+    <input type="text" id="searchBox" placeholder="Search..." oninput="renderHistory()" />
+    <table id="historyTable">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Date</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- History rows will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+  <script>
+    async function fetchHistory() {
+      const res = await fetch('/api/movement', { cache: "no-store" });
+      return await res.json();
+    }
+
+    async function renderHistory() {
+      const history = await fetchHistory();
+      const filter = document.getElementById('searchBox').value.toLowerCase();
+      const tbody = document.querySelector('#historyTable tbody');
+      tbody.innerHTML = '';
+      history.forEach(item => {
+        if (item.name.toLowerCase().includes(filter)) {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${item.name}</td><td>${item.quantity}</td><td>${item.date}</td><td>${item.type || ''}</td>`;
+          tbody.appendChild(row);
+        }
+      });
+    }
+
+    window.onload = renderHistory;
+  </script>
+</body>
+</html>

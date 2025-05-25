@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Stock Manager</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Home Stock Manager</h1>
+
+    <!-- Add Product -->
+    <section class="card">
+      <h2>Add Product to Warehouse</h2>
+      <form id="addForm">
+        <input type="text" id="addProduct" placeholder="Product name" required />
+        <input type="number" id="addQty" placeholder="Quantity" min="1" required />
+        <input type="date" id="addDate" required />
+        <button type="submit">Add Stock</button>
+      </form>
+      <!-- ...existing code... -->
+<section class="card">
+  <h2>Import Stock from Excel</h2>
+  <input type="file" id="excelFile" accept=".xlsx, .xls" />
+  <button type="button" onclick="importExcel()">Import</button>
+</section>
+<!-- ...existing code... -->
+
+<!-- Add SheetJS library before your script.js -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="script.js"></script>
+    </section>
+
+    <!-- Move Stock -->
+    <section class="card">
+      <h2>Move Stock to Shop</h2>
+      <form id="moveForm">
+        <input type="text" id="moveProduct" placeholder="Product name" required />
+        <input type="number" id="moveQty" placeholder="Quantity" min="1" required />
+        <input type="date" id="moveDate" required />
+        <button type="submit">Move Stock</button>
+      </form>
+    </section>
+
+    <!-- View Buttons -->
+    <div class="buttons">
+      <button onclick="window.location.href='stock.html'">View Current Stock</button>
+      <button onclick="window.location.href='history.html'">View Movement History</button>
+    </div>
+
+    <!-- Display Tables (optional, for dashboard) -->
+    <section id="display" class="card">
+      <input type="text" id="searchBox" placeholder="Search..." oninput="searchTable()" />
+      <table id="dataTable"></table>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
