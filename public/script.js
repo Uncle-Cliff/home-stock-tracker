@@ -67,7 +67,26 @@ async function searchTable() {
   });
 }
 
-window.onload = searchTable;
+// Product name suggestions
+async function showSuggestions(query) {
+  const suggestionsDiv = document.getElementById('suggestions');
+  if (!query) {
+    suggestionsDiv.innerHTML = '';
+    return;
+  }
+  const stock = await fetchStock();
+  const matches = stock.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
+  suggestionsDiv.innerHTML = matches.map(item =>
+    `<div class="suggestion-item" onclick="selectSuggestion('${item.name}')">${item.name}</div>`
+  ).join('');
+}
+
+function selectSuggestion(name) {
+  document.getElementById('addProduct').value = name;
+  document.getElementById('suggestions').innerHTML = '';
+}
+
+// Excel import
 async function importExcel() {
   const fileInput = document.getElementById('excelFile');
   if (!fileInput.files.length) {
@@ -83,13 +102,24 @@ async function importExcel() {
     const sheet = workbook.Sheets[sheetName];
     const json = XLSX.utils.sheet_to_json(sheet);
 
-    // json is an array of objects, e.g. [{name: "Product1", quantity: 10, date: "2024-05-25"}, ...]
-    // You may need to adjust the keys to match your backend expectations
+    // Validate and clean data
+    const items = json
+      .filter(row => row.name && row.quantity && row.date)
+      .map(row => ({
+        name: String(row.name),
+        quantity: Number(row.quantity),
+        date: String(row.date)
+      }));
+
+    if (!items.length) {
+      alert('No valid rows found in the Excel file.');
+      return;
+    }
 
     const res = await fetch('/api/stock/import', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: json })
+      body: JSON.stringify({ items })
     });
 
     if (res.ok) {
@@ -101,3 +131,5 @@ async function importExcel() {
   };
   reader.readAsArrayBuffer(file);
 }
+
+window.onload = searchTable;

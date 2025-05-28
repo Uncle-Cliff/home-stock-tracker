@@ -11,25 +11,22 @@
     <h1>Home Stock Manager</h1>
 
     <!-- Add Product -->
-    <section class="card">
+    <section class="card" style="position:relative;">
       <h2>Add Product to Warehouse</h2>
-      <form id="addForm">
-        <input type="text" id="addProduct" placeholder="Product name" required />
+      <form id="addForm" autocomplete="off">
+        <input type="text" id="addProduct" placeholder="Product name" required autocomplete="off" oninput="showSuggestions(this.value)" />
+        <div id="suggestions" class="suggestions"></div>
         <input type="number" id="addQty" placeholder="Quantity" min="1" required />
         <input type="date" id="addDate" required />
         <button type="submit">Add Stock</button>
       </form>
-      <!-- ...existing code... -->
-<section class="card">
-  <h2>Import Stock from Excel</h2>
-  <input type="file" id="excelFile" accept=".xlsx, .xls" />
-  <button type="button" onclick="importExcel()">Import</button>
-</section>
-<!-- ...existing code... -->
+    </section>
 
-<!-- Add SheetJS library before your script.js -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="script.js"></script>
+    <!-- Import from Excel -->
+    <section class="card">
+      <h2>Import Stock from Excel</h2>
+      <input type="file" id="excelFile" accept=".xlsx, .xls" />
+      <button type="button" onclick="importExcel()">Import</button>
     </section>
 
     <!-- Move Stock -->
@@ -49,13 +46,15 @@
       <button onclick="window.location.href='history.html'">View Movement History</button>
     </div>
 
-    <!-- Display Tables (optional, for dashboard) -->
+    <!-- Display Tables (dashboard) -->
     <section id="display" class="card">
       <input type="text" id="searchBox" placeholder="Search..." oninput="searchTable()" />
       <table id="dataTable"></table>
     </section>
   </div>
 
+  <!-- SheetJS for Excel import -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

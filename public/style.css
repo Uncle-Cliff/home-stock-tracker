@@ -78,3 +78,19 @@ th {
   background: #007bff;
   color: white;
 }
+.suggestions {
+  border: 1px solid #ccc;
+  max-height: 120px;
+  overflow-y: auto;
+  background: #fff;
+  position: absolute;
+  z-index: 10;
+  width: 200px;
+}
+.suggestion-item {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.suggestion-item:hover {
+  background: #eee;
+}
