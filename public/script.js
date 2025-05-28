@@ -132,4 +132,17 @@ async function importExcel() {
   reader.readAsArrayBuffer(file);
 }
 
+// Clear all data
+async function clearDatabase() {
+  if (confirm("Are you sure you want to delete ALL stock and movement records?")) {
+    const res = await fetch('/api/clear', { method: 'DELETE' });
+    if (res.ok) {
+      alert('All data deleted!');
+      searchTable();
+    } else {
+      alert('Failed to clear database.');
+    }
+  }
+}
+
 window.onload = searchTable;

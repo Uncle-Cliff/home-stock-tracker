@@ -219,5 +219,12 @@ app.post("/api/stock/import", (req, res) => {
   // If items is empty, respond immediately
   if (items.length === 0) res.sendStatus(200);
 });
+app.delete('/api/clear', (req, res) => {
+  db.serialize(() => {
+    db.run("DELETE FROM stock");
+    db.run("DELETE FROM movement");
+    res.sendStatus(200);
+  });
+});
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
